@@ -91,6 +91,7 @@ The pipeline (`main.py`) must be run at least once locally to generate the `mode
 ├── data/                   # Data directory (ignored in git)
 │   ├── raw/                # Original downloaded dataset
 │   └── processed/          # Cleaned & split data
+├── dashboard/              # Power BI dashboard (PBIP project format)
 ├── figures/                # EDA and SHAP visualizations
 ├── models/                 # Saved joblib models and pipelines
 ├── mlruns/                 # MLflow tracking store
@@ -146,6 +147,24 @@ deep learning generally underperforms GBMs on tabular data of this size:
 2. **XGBoost** — depth-wise with strong regularization; a robust second opinion.
 3. **HistGradientBoosting** — scikit-learn's native LightGBM-style GBM;
    equally competitive with zero extra dependencies.
+
+---
+
+## 📊 Power BI Dashboard — Demand Planning Control Tower
+
+A four-page interactive Power BI dashboard built on the model's forecast output:
+
+![Power BI dashboard usage](docs/dashboard.gif)
+
+*Live usage: Executive Overview (5-year trend + growth KPIs) → Seasonality &
+Planning (store × month planning grid, weekday/weekend rhythm) → Forecast
+Explorer (pick any store/item → 90-day plan with history beside it) → Forecast
+Accuracy (held-out quarter: actual vs forecast, error by store, champion model
+card).*
+
+Open `dashboard/DemandPlanning/DemandPlanning.pbip` with Power BI Desktop
+(PBIP/PBIR project format — enable *Power BI Project files* in Preview
+features).
 
 ---
 
