@@ -1,0 +1,158 @@
+{
+  "function": {
+    "FunctionName": "demand-forecast",
+    "Runtime": "python3.11",
+    "MemorySize": 512,
+    "Timeout": 10,
+    "CodeSize": 52588958,
+    "Role": "arn:aws:iam::451071929298:role/LambdaForecastingRole",
+    "LastModified": "2026-07-27T11:35:57.523+0000"
+  },
+  "env": {
+    "MODEL_BUCKET": "demand-forecast-models-451071929298",
+    "MODEL_PREFIX": "models"
+  },
+  "api": {
+    "endpoint": "https://ayckev03m9.execute-api.eu-central-1.amazonaws.com",
+    "protocol": "HTTP"
+  },
+  "iam_policy": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "ReadModelArtifactsOnly",
+        "Effect": "Allow",
+        "Action": [
+          "s3:GetObject"
+        ],
+        "Resource": "arn:aws:s3:::demand-forecast-models-451071929298/models/*"
+      },
+      {
+        "Sid": "LambdaLogs",
+        "Effect": "Allow",
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/demand-forecast*"
+      }
+    ]
+  },
+  "live_tests": {
+    "summer_sunday": {
+      "request": {
+        "date": "2018-07-15",
+        "store": 2,
+        "item": 15
+      },
+      "status": 200,
+      "response": {
+        "store": 2,
+        "item": 15,
+        "forecast": [
+          {
+            "date": "2018-07-15",
+            "predicted_sales": 185.59
+          }
+        ],
+        "model": "XGBoost",
+        "expected_smape": 12.3258
+      }
+    },
+    "winter_monday": {
+      "request": {
+        "date": "2018-01-08",
+        "store": 2,
+        "item": 15
+      },
+      "status": 200,
+      "response": {
+        "store": 2,
+        "item": 15,
+        "forecast": [
+          {
+            "date": "2018-01-08",
+            "predicted_sales": 67.47
+          }
+        ],
+        "model": "XGBoost",
+        "expected_smape": 12.3258
+      }
+    },
+    "horizon_14d": {
+      "request": {
+        "start_date": "2018-07-01",
+        "periods": 14,
+        "store": 2,
+        "item": 15
+      },
+      "status": 200,
+      "response": {
+        "store": 2,
+        "item": 15,
+        "forecast": [
+          {
+            "date": "2018-07-01",
+            "predicted_sales": 187.67
+          },
+          {
+            "date": "2018-07-02",
+            "predicted_sales": 125.07
+          },
+          {
+            "date": "2018-07-03",
+            "predicted_sales": 145.05
+          },
+          {
+            "date": "2018-07-04",
+            "predicted_sales": 144.87
+          },
+          {
+            "date": "2018-07-05",
+            "predicted_sales": 155.12
+          },
+          {
+            "date": "2018-07-06",
+            "predicted_sales": 164.58
+          },
+          {
+            "date": "2018-07-07",
+            "predicted_sales": 177.8
+          },
+          {
+            "date": "2018-07-08",
+            "predicted_sales": 185.69
+          },
+          {
+            "date": "2018-07-09",
+            "predicted_sales": 123.33
+          },
+          {
+            "date": "2018-07-10",
+            "predicted_sales": 144.05
+          },
+          {
+            "date": "2018-07-11",
+            "predicted_sales": 143.81
+          },
+          {
+            "date": "2018-07-12",
+            "predicted_sales": 156.45
+          },
+          {
+            "date": "2018-07-13",
+            "predicted_sales": 164.06
+          },
+          {
+            "date": "2018-07-14",
+            "predicted_sales": 177.35
+          }
+        ],
+        "model": "XGBoost",
+        "expected_smape": 12.3258
+      }
+    }
+  },
+  "recent_execution_reports": []
+}

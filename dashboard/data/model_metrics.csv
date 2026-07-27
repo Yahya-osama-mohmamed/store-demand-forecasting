@@ -1,0 +1,8 @@
+Metric,Value
+Best Model,XGBoost
+Test SMAPE,12.3258
+Validation SMAPE,10.9504
+Test RMSE,7.6282
+Test MAE,5.859
+Test R2,0.9283
+Trained At (UTC),2026-07-26T22:16:29

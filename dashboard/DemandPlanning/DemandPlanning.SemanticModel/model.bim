@@ -1,0 +1,1035 @@
+{
+  "compatibilityLevel": 1606,
+  "model": {
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"Sales\", \"Forecast\", \"TestForecast\", \"Stores\", \"Items\", \"ModelMetrics\", \"DemandDrivers\", \"ModelComparison\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-US",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "relationships": [
+      {
+        "name": "592d990b-3d8d-4a60-ae67-59af29d4cae2",
+        "fromColumn": "Store",
+        "fromTable": "Sales",
+        "toColumn": "Store",
+        "toTable": "Stores"
+      },
+      {
+        "name": "5cfcd54b-69bb-46a3-aa80-64f8f66244a1",
+        "fromColumn": "Item",
+        "fromTable": "Sales",
+        "toColumn": "Item",
+        "toTable": "Items"
+      },
+      {
+        "name": "b6d7dc72-2b37-467b-b26a-e99122b22314",
+        "fromColumn": "Store",
+        "fromTable": "Forecast",
+        "toColumn": "Store",
+        "toTable": "Stores"
+      },
+      {
+        "name": "de059074-0f2b-49ac-a513-6cc0ae569822",
+        "fromColumn": "Item",
+        "fromTable": "Forecast",
+        "toColumn": "Item",
+        "toTable": "Items"
+      },
+      {
+        "name": "1b714522-288a-4189-93ad-abe1a366b87c",
+        "fromColumn": "Store",
+        "fromTable": "TestForecast",
+        "toColumn": "Store",
+        "toTable": "Stores"
+      },
+      {
+        "name": "7201e7ba-7929-4f1b-9360-741802f1242f",
+        "fromColumn": "Item",
+        "fromTable": "TestForecast",
+        "toColumn": "Item",
+        "toTable": "Items"
+      }
+    ],
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "Sales",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "yyyy-mm-dd",
+            "lineageTag": "a08b4d1b-251d-48c9-be64-355975145f0f",
+            "sourceColumn": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Store",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "4bb9f14a-704c-46ad-92b9-145a1bc763ad",
+            "sourceColumn": "Store",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Item",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "0b00c1fa-163d-4a9e-8428-c86ff9cd20de",
+            "sourceColumn": "Item",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Sales",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "80914a1e-29cd-43d4-90ba-1bcf250448e7",
+            "sourceColumn": "Sales",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "6d801bfb-5989-4bcf-9dd7-722ba2130fb5",
+            "sourceColumn": "Year",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MonthNum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "fc0239d6-2c69-47d6-ba46-7dd7fb8c41e3",
+            "sourceColumn": "MonthNum",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "7f13a735-600b-49a3-9a98-1214e1876cc8",
+            "sortByColumn": "MonthNum",
+            "sourceColumn": "Month",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DayNum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "52c57b18-51f8-445c-8a92-7e0d35b079b1",
+            "sourceColumn": "DayNum",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "f5301d14-b35a-47bf-9422-625d4cb3e669",
+            "sortByColumn": "DayNum",
+            "sourceColumn": "Day",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "IsWeekend",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "baafa87a-cfda-494f-b0fb-e84c61358467",
+            "sourceColumn": "IsWeekend",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "e3158610-f99e-4cac-8d67-dc1fc59fd0b2",
+        "measures": [
+          {
+            "name": "Total Units",
+            "expression": "SUM('Sales'[Sales])",
+            "formatString": "#,0",
+            "lineageTag": "8fb92a66-3eb4-4210-ad3c-7c09145d7e52"
+          },
+          {
+            "name": "Avg Daily Units",
+            "expression": "AVERAGE('Sales'[Sales])",
+            "formatString": "0.0",
+            "lineageTag": "7cccafe1-b38e-4d69-b150-05110ac9fba0"
+          },
+          {
+            "name": "Units 2017",
+            "expression": "CALCULATE(SUM('Sales'[Sales]), 'Sales'[Year] = 2017)",
+            "formatString": "#,0",
+            "lineageTag": "8ac1c35a-972a-477b-b22b-aa3ca8a668a9"
+          },
+          {
+            "name": "Units 2016",
+            "expression": "CALCULATE(SUM('Sales'[Sales]), 'Sales'[Year] = 2016)",
+            "formatString": "#,0",
+            "lineageTag": "ed56bbff-2f1f-4a12-8471-08624139e939"
+          },
+          {
+            "name": "YoY Growth %",
+            "expression": "DIVIDE([Units 2017] - [Units 2016], [Units 2016])",
+            "formatString": "+0.0%;-0.0%",
+            "lineageTag": "e6dfccc5-236f-4932-aca6-b306d9b9df75"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Sales",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\sales_history.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"date\", type date}, {\"Store\", Int64.Type}, {\"Item\", Int64.Type}, {\"Sales\", Int64.Type}, {\"Year\", Int64.Type}, {\"MonthNum\", Int64.Type}, {\"Month\", type text}, {\"DayNum\", Int64.Type}, {\"Day\", type text}, {\"IsWeekend\", type text}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Forecast",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "yyyy-mm-dd",
+            "lineageTag": "a599738a-0c3b-49ad-b466-bb09b212df5d",
+            "sourceColumn": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Store",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "cc4490b7-f3d2-4e8a-b1e1-dee871b83700",
+            "sourceColumn": "Store",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Item",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "8bddd31f-d420-4a86-91f9-986944101e77",
+            "sourceColumn": "Item",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Forecast",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "0f4c4cef-58ad-49cd-bcc0-14002e1095e3",
+            "sourceColumn": "Forecast",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "c777cd8b-f965-4b8e-adb6-55c04e9e58bc",
+            "sourceColumn": "Year",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MonthNum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "42c5575e-3a22-484a-a90c-792e70774320",
+            "sourceColumn": "MonthNum",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "313b20c0-efbd-4568-ab46-c46571353c54",
+            "sortByColumn": "MonthNum",
+            "sourceColumn": "Month",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DayNum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "a266aab9-d054-4ead-82da-1e69a685701e",
+            "sourceColumn": "DayNum",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "55babc84-bdd0-4e8c-864f-442680fdcc32",
+            "sortByColumn": "DayNum",
+            "sourceColumn": "Day",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "IsWeekend",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "6b86a1b5-4dd5-4240-954c-82e75f284720",
+            "sourceColumn": "IsWeekend",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "c04c9a39-b51a-426f-886e-b4dded4e2ebd",
+        "measures": [
+          {
+            "name": "Forecast Units",
+            "expression": "SUM('Forecast'[Forecast])",
+            "formatString": "#,0",
+            "lineageTag": "d9eb4da4-22d5-43fc-a931-5d5dd3d6eb25"
+          },
+          {
+            "name": "Avg Daily Forecast",
+            "expression": "AVERAGE('Forecast'[Forecast])",
+            "formatString": "0.0",
+            "lineageTag": "101b0fd1-9aca-4f1f-a650-18639edf9541"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Forecast",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\future_forecast.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"date\", type date}, {\"Store\", Int64.Type}, {\"Item\", Int64.Type}, {\"Forecast\", type number}, {\"Year\", Int64.Type}, {\"MonthNum\", Int64.Type}, {\"Month\", type text}, {\"DayNum\", Int64.Type}, {\"Day\", type text}, {\"IsWeekend\", type text}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "TestForecast",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "yyyy-mm-dd",
+            "lineageTag": "4136613e-12ca-40fd-803c-a893e45f69c5",
+            "sourceColumn": "date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Store",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "8444f03d-2f2c-4e30-b1e6-85ff7633b26c",
+            "sourceColumn": "Store",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Item",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "f8a4f64f-8e0d-4537-8cd9-f64f782f987b",
+            "sourceColumn": "Item",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Actual",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "f197d477-0cf5-4f50-b41b-525caaa0416c",
+            "sourceColumn": "Actual",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Forecast",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "981939f2-a088-4b86-931e-4f8fd0762d55",
+            "sourceColumn": "Forecast",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "AbsError",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "0d88d1f5-14fc-42d7-b4a4-103b4b41c87b",
+            "sourceColumn": "AbsError",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "SmapePct",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "6fd86e48-5b9d-47c9-affc-a7693b8ce1f2",
+            "sourceColumn": "SmapePct",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "6d327a02-a1cf-4ebc-801c-532c9951e603",
+            "sourceColumn": "Year",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MonthNum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "9fb236bb-dde2-49d0-869b-9d10be6c5bc6",
+            "sourceColumn": "MonthNum",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Month",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "cbb4fbeb-cd64-4683-bf8b-45b648c1ae9f",
+            "sortByColumn": "MonthNum",
+            "sourceColumn": "Month",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "DayNum",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "f780ecbd-c76b-490a-b516-60f810152ea5",
+            "sourceColumn": "DayNum",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Day",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "4285760d-cb57-43f3-a884-7c1b9215479a",
+            "sortByColumn": "DayNum",
+            "sourceColumn": "Day",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "IsWeekend",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "239c19d3-828a-4359-8e00-f78e7625b482",
+            "sourceColumn": "IsWeekend",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "f75a4b7a-4eb8-4d00-9b01-192d0ebce9ff",
+        "measures": [
+          {
+            "name": "Actual Units",
+            "expression": "SUM('TestForecast'[Actual])",
+            "formatString": "#,0",
+            "lineageTag": "edd23243-5c0d-49d3-96e7-17fa912d918d"
+          },
+          {
+            "name": "Forecast Units (Test)",
+            "expression": "SUM('TestForecast'[Forecast])",
+            "formatString": "#,0",
+            "lineageTag": "b5a73868-51b6-4306-afe7-e1ebbc750993"
+          },
+          {
+            "name": "SMAPE %",
+            "expression": "AVERAGE('TestForecast'[SmapePct])",
+            "formatString": "0.00",
+            "lineageTag": "ef9c7bee-2b84-428a-8140-5158c01f70ac"
+          },
+          {
+            "name": "MAE (units)",
+            "expression": "AVERAGE('TestForecast'[AbsError])",
+            "formatString": "0.00",
+            "lineageTag": "109b15a4-9aca-47a6-bb25-529f6a1f1247"
+          },
+          {
+            "name": "Forecast Bias %",
+            "expression": "DIVIDE([Forecast Units (Test)] - [Actual Units], [Actual Units])",
+            "formatString": "+0.0%;-0.0%",
+            "lineageTag": "cad078e1-d47a-4eb0-b4cd-5dafcee1e788"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "TestForecast",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\test_forecast.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"date\", type date}, {\"Store\", Int64.Type}, {\"Item\", Int64.Type}, {\"Actual\", Int64.Type}, {\"Forecast\", type number}, {\"AbsError\", type number}, {\"SmapePct\", type number}, {\"Year\", Int64.Type}, {\"MonthNum\", Int64.Type}, {\"Month\", type text}, {\"DayNum\", Int64.Type}, {\"Day\", type text}, {\"IsWeekend\", type text}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Stores",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Store",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "5abf4871-69fa-40b6-8328-19646b05eeac",
+            "sourceColumn": "Store",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "d730f100-9818-4f52-baa8-f765fe804ba9",
+        "partitions": [
+          {
+            "name": "Stores",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\dim_store.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Store\", Int64.Type}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Items",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Item",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "26bbc8f9-e791-4b22-ab22-35168eefe09e",
+            "sourceColumn": "Item",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "1c3cf15c-e385-4f4d-87ae-bac551dcb873",
+        "partitions": [
+          {
+            "name": "Items",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\dim_item.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Item\", Int64.Type}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "ModelMetrics",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Metric",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9dd80e1a-39e1-4616-965b-cea1bfdb9fc8",
+            "sourceColumn": "Metric",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Value",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "b2655f0e-b281-4c4b-b9e5-af5bbebc42dd",
+            "sourceColumn": "Value",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "06bdfab3-eda4-4f29-b9e8-75c494fcb1c1",
+        "partitions": [
+          {
+            "name": "ModelMetrics",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\model_metrics.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Metric\", type text}, {\"Value\", type text}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DemandDrivers",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Feature",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "ce5a2ea0-46f6-42ae-815a-67e9af0f4f3a",
+            "sourceColumn": "Feature",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "MeanAbsShap",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "973ff912-9130-490b-927f-37682a6cd1e1",
+            "sourceColumn": "MeanAbsShap",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "b850af49-284d-4ccd-83fe-a8e8d37ca609",
+        "measures": [
+          {
+            "name": "Impact",
+            "expression": "SUM('DemandDrivers'[MeanAbsShap])",
+            "formatString": "0.00",
+            "lineageTag": "68b85f8d-3ca0-4d67-8ae4-4f6f6727a863"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "DemandDrivers",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\demand_drivers.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Feature\", type text}, {\"MeanAbsShap\", type number}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "ModelComparison",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Model",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "796b80e6-4bd7-4534-a8d1-b960cf25e3bb",
+            "sourceColumn": "Model",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test SMAPE",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "345aba11-c1ee-41a8-9a6e-c77111795a9c",
+            "sourceColumn": "Test SMAPE",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test RMSE",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "529cdd5f-ecf5-4c96-a3c5-d93ca3bdaa64",
+            "sourceColumn": "Test RMSE",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test MAE",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "6a758132-7170-476f-b961-3f5a733e4cbf",
+            "sourceColumn": "Test MAE",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Test R2",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "c2076f04-cbce-4ef0-b68e-7e0b7d7202a2",
+            "sourceColumn": "Test R2",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Val SMAPE",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "1592321e-71be-4dd3-9e10-f6c80885503a",
+            "sourceColumn": "Val SMAPE",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Train SMAPE",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "c477318b-c4e9-44d5-a0c0-d1e1d98e2aa1",
+            "sourceColumn": "Train SMAPE",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Overfit Gap",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "d84c05a6-f3f0-4f97-a10f-9d62e55c7849",
+            "sourceColumn": "Overfit Gap",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Training Time (s)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "ca36c7a9-7e11-4d6c-9c72-1eb3edb04d58",
+            "sourceColumn": "Training Time (s)",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "7d6e6b92-62b3-4dd6-b97a-b275cddecaf4",
+        "partitions": [
+          {
+            "name": "ModelComparison",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"C:\\Users\\pc\\Downloads\\data\\demand_forecasting\\dashboard\\data\\model_comparison.csv\"),[Delimiter=\",\", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Model\", type text}, {\"Test SMAPE\", type number}, {\"Test RMSE\", type number}, {\"Test MAE\", type number}, {\"Test R2\", type number}, {\"Val SMAPE\", type number}, {\"Train SMAPE\", type number}, {\"Overfit Gap\", type number}, {\"Training Time (s)\", type number}}, \"en-US\")",
+                "in",
+                "    #\"Changed Type\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

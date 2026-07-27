@@ -1,0 +1,189 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "table_comparison",
+  "position": {
+    "x": 24,
+    "y": 460,
+    "z": 8000,
+    "height": 236,
+    "width": 640
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "ModelComparison"
+                    }
+                  },
+                  "Property": "Model"
+                }
+              },
+              "queryRef": "ModelComparison.Model",
+              "nativeQueryRef": "Model"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test SMAPE"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test SMAPE)",
+              "nativeQueryRef": "Sum of Test SMAPE",
+              "displayName": "Test SMAPE"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Val SMAPE"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Val SMAPE)",
+              "nativeQueryRef": "Sum of Val SMAPE",
+              "displayName": "Val SMAPE"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test RMSE"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test RMSE)",
+              "nativeQueryRef": "Sum of Test RMSE",
+              "displayName": "RMSE"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test MAE"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test MAE)",
+              "nativeQueryRef": "Sum of Test MAE",
+              "displayName": "MAE"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "ModelComparison"
+                        }
+                      },
+                      "Property": "Test R2"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(ModelComparison.Test R2)",
+              "nativeQueryRef": "Sum of Test R2",
+              "displayName": "R²"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "ModelComparison"
+                      }
+                    },
+                    "Property": "Val SMAPE"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Candidate Models (champion picked on validation SMAPE)'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

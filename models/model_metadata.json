@@ -1,0 +1,11 @@
+{
+  "best_model": "XGBoost",
+  "val_smape": 10.9504,
+  "test_smape": 12.3258,
+  "test_rmse": 7.6282,
+  "test_mae": 5.859,
+  "test_r2": 0.9283,
+  "trained_at_utc": "2026-07-26T22:16:29.643279+00:00",
+  "n_training_rows": 821000,
+  "train_end_date": "2017-06-30"
+}

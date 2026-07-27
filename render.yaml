@@ -1,0 +1,25 @@
+# Render configuration (https://render.com/)
+
+services:
+  # 1. FastAPI Backend
+  - type: web
+    name: demand-forecasting-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
+  # 2. Streamlit Dashboard
+  - type: web
+    name: demand-forecasting-dashboard
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: API_URL
+        value: https://demand-forecasting-api.onrender.com

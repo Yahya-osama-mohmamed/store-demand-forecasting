@@ -1,0 +1,16 @@
+Feature,MeanAbsShap
+store item dow mean,14.7348
+year,4.3463
+item month mean,4.0097
+store month mean,2.4768
+store item mean,2.4677
+month cos,1.8509
+doy cos,1.7019
+dow sin,1.0616
+month sin,0.8569
+dayofyear,0.4795
+dow cos,0.3372
+month 7,0.2373
+dayofweek 6,0.2272
+doy sin,0.1748
+is weekend,0.1593

@@ -1,0 +1,4 @@
+# Lambda inference deps ONLY — the whole point is what is NOT here
+# (no sklearn, no pandas, no joblib: see export_for_lambda.py)
+xgboost-cpu==2.1.3
+numpy==1.26.4

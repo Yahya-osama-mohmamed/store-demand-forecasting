@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Demand Planning Control Tower"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c88a6798-52be-4476-b4c6-447dbaa73b70"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "line_test",
+  "position": {
+    "x": 24.316109422492403,
+    "y": 179.93920972644378,
+    "z": 7000,
+    "height": 268.44984802431611,
+    "width": 819.93920972644378
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TestForecast"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "TestForecast.date",
+              "nativeQueryRef": "date",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TestForecast"
+                    }
+                  },
+                  "Property": "Actual Units"
+                }
+              },
+              "queryRef": "TestForecast.Actual Units",
+              "nativeQueryRef": "Actual Units"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TestForecast"
+                    }
+                  },
+                  "Property": "Forecast Units (Test)"
+                }
+              },
+              "queryRef": "TestForecast.Forecast Units (Test)",
+              "nativeQueryRef": "Forecast Units (Test)"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Held-Out Quarter (Oct-Dec 2017): Actual (teal) vs Forecast (orange)'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9c3f159f5ddd40d42b04",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TestForecast"
+              }
+            },
+            "Property": "date"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "61229bb86ea891473d0e",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TestForecast"
+              }
+            },
+            "Property": "Actual Units"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c3cef039072a2dbe882b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TestForecast"
+              }
+            },
+            "Property": "Forecast Units (Test)"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
