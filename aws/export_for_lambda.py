@@ -24,7 +24,7 @@ from pathlib import Path
 import joblib
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from src.config import FINAL_PIPELINE_PATH, MODEL_METADATA_PATH  # noqa: E402
+from pipeline_lib import FINAL_PIPELINE_PATH, MODEL_METADATA_PATH  # noqa: E402
 
 BUILD_DIR = Path(__file__).resolve().parent / "build"
 

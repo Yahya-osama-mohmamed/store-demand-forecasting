@@ -5,7 +5,9 @@
   "test_rmse": 7.6282,
   "test_mae": 5.859,
   "test_r2": 0.9283,
-  "trained_at_utc": "2026-07-26T22:16:29.643279+00:00",
-  "n_training_rows": 821000,
-  "train_end_date": "2017-06-30"
+  "test_bias_pct": -2.092,
+  "train_end_date": "2017-06-30",
+  "val_end_date": "2017-09-30",
+  "trained_at_utc": "2026-08-01T20:21:10.689026+00:00",
+  "n_training_rows": 821000
 }

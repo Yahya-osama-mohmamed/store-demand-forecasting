@@ -1,4 +1,4 @@
-Model,Test SMAPE,Test RMSE,Test MAE,Test R2,Val SMAPE,Train SMAPE,Overfit Gap,Training Time (s),Description
-XGBoost,12.32578658043305,7.628231425232494,5.859042470061261,0.9282873272895813,10.950373816962383,12.611275140999545,-1.6609013240371624,367.53504490852356,Depth-wise gradient boosting with L1/L2 regularization and histogram tree construction.
-HistGradientBoosting,12.399864846719357,7.714412336395858,5.909464672987095,0.9266578188082494,10.963554439766355,12.620089798612783,-1.656535358846428,259.114625453949,"scikit-learn's native histogram gradient boosting (LightGBM-inspired), dependency-free and fast."
-LightGBM,12.374334481042668,7.687317962138888,5.895937636348143,0.9271720954091781,10.969247650184608,12.624569877453611,-1.6553222272690036,309.93228363990784,Leaf-wise gradient boosting. Histogram-based splitting for speed; typically the strongest model on this competition.
+,val_smape,val_rmse,val_mae,val_r2,val_bias_pct,test_smape,test_rmse,test_mae,test_r2,test_bias_pct
+XGBoost,10.9504,8.4848,6.5168,0.9387,-2.2896,12.3258,7.6282,5.859,0.9283,-2.092
+HistGradientBoosting,10.9636,8.4977,6.5249,0.9385,-2.0093,12.3999,7.7144,5.9095,0.9267,-2.5848
+LightGBM,10.9692,8.4991,6.5286,0.9385,-2.0742,12.3743,7.6873,5.8959,0.9272,-2.4442

@@ -27,7 +27,6 @@ Demand forecasting drives every downstream retail decision: inventory purchasing
 - **Data Science Core:** pandas, NumPy, scikit-learn
 - **Machine Learning Models:** LightGBM, XGBoost, HistGradientBoosting
 - **Explainability:** SHAP (SHapley Additive exPlanations)
-- **Experiment Tracking:** MLflow
 - **API & Backend:** FastAPI, Uvicorn, Pydantic
 - **Frontend / Dashboard:** Streamlit, Plotly
 - **DevOps / CI-CD:** Docker, Docker Compose, GitHub Actions, Render
@@ -47,10 +46,21 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Run the ML Pipeline
-Downloads the dataset, cleans it, engineers features, trains and tunes all three models, generates SHAP explanations, tracks experiments in MLflow, and saves the final `.joblib` pipeline.
+### 2. Run the analysis
+The whole project is one notebook: [`notebooks/demand_analysis.ipynb`](notebooks/demand_analysis.ipynb).
+It downloads the data, explores the seasonality, splits chronologically, builds
+calendar and learned-aggregate features, tunes three gradient boosting
+implementations on SMAPE with `TimeSeriesSplit`, evaluates the champion once on
+the held-out quarter, and saves the artifacts the API and the Lambda export use.
+
 ```bash
-python main.py
+jupyter lab notebooks/demand_analysis.ipynb
+```
+
+Or execute it headlessly (it trains on 821k rows, so allow time):
+
+```bash
+jupyter nbconvert --to notebook --execute --inplace notebooks/demand_analysis.ipynb
 ```
 
 ### 3. Start the Applications
@@ -76,7 +86,7 @@ docker-compose up --build -d
 # Check logs
 docker-compose logs -f
 ```
-The pipeline (`main.py`) must be run at least once locally to generate the `models/` directory before starting the containers.
+The notebook must be run at least once locally to generate the `models/` directory before starting the containers.
 
 ---
 
@@ -91,35 +101,34 @@ The pipeline (`main.py`) must be run at least once locally to generate the `mode
 ├── data/                   # Data directory (ignored in git)
 │   ├── raw/                # Original downloaded dataset
 │   └── processed/          # Cleaned & split data
+├── aws/                    # Serverless export, deploy and teardown scripts
 ├── dashboard/              # Power BI dashboard (PBIP project format)
-├── figures/                # EDA and SHAP visualizations
-├── models/                 # Saved joblib models and pipelines
-├── mlruns/                 # MLflow tracking store
-├── notebooks/              # Jupyter notebooks for exploration
-├── reports/                # Executive summaries and comparison tables
-├── src/                    # Core ML Source Code
-│   ├── config.py           # Constants, paths, split boundaries
-│   ├── data_loader.py      # Download and initial profiling
-│   ├── preprocessing.py    # Cleaning, chronological split, encoding
-│   ├── feature_engineering.py # Calendar features + learned aggregates
-│   ├── feature_selection.py   # MI and Random Forest importance
-│   ├── model_training.py   # RandomizedSearchCV + TimeSeriesSplit tuning
-│   ├── model_evaluation.py # SMAPE/RMSE/MAE metrics and plots
-│   ├── explainability.py   # SHAP analysis
-│   └── logger.py           # Structured JSON logging
+├── figures/                # EDA and evaluation charts (written by the notebook)
+├── models/                 # Saved pipeline, feature names, model metadata
+├── notebooks/
+│   └── demand_analysis.ipynb  # ← the project: EDA → features → models → test → save
+├── reports/                # Model comparison table
 ├── tests/                  # Pytest unit tests
+├── pipeline_lib.py         # FeatureEngineer + SMAPE, shared by notebook/API/Lambda
 ├── Dockerfile              # Multi-purpose Dockerfile
 ├── docker-compose.yml      # Container orchestration
-├── main.py                 # Pipeline execution entry point
 ├── render.yaml             # Render cloud deployment config
 └── requirements.txt        # Python dependencies
 ```
+
+### Why there is still a `.py` file
+
+`pipeline_lib.py` holds `FeatureEngineer`, the SMAPE metric and the column
+definitions. Not for tidiness — a pickled sklearn pipeline stores its steps *by
+import path*, so a transformer defined in a notebook pickles as
+`__main__.FeatureEngineer` and neither the API nor the Lambda export could load
+it. Everything else lives in the notebook.
 
 ---
 
 ## 📊 Model Performance
 
-After running the pipeline, check `reports/model_comparison.csv` for detailed metrics. The primary metric is **SMAPE** (the competition metric — lower is better); leading public-leaderboard solutions score ~12.5–14.
+After running the notebook, check `reports/model_comparison.csv` for detailed metrics. The primary metric is **SMAPE** (the competition metric — lower is better); leading public-leaderboard solutions score ~12.5–14.
 
 ### Methodology Notes
 
@@ -136,8 +145,9 @@ After running the pipeline, check `reports/model_comparison.csv` for detailed me
   and any future date works.
 - **Hyperparameter tuning** uses `RandomizedSearchCV` with `TimeSeriesSplit`, so
   every CV fold validates on data strictly after its training window.
-- Feature-importance analysis (mutual information + random forest) is reported
-  in `figures/feature_selection_*.png`; models train on the full feature set.
+- **Gain-based feature importance** for the champion is reported in
+  `figures/shap_bar.png`; the learned demand aggregates dominate, which is what
+  the seasonality analysis predicted.
 
 ### Why these three models?
 

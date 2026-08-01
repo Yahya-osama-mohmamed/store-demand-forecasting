@@ -58,7 +58,7 @@ def _load():
 
 
 def _engineer(date: dt.date, store: int, item: int, art: dict) -> dict:
-    """Mirror of src.feature_engineering.FeatureEngineer.transform for one row."""
+    """Mirror of pipeline_lib.FeatureEngineer.transform for one row."""
     dow = date.weekday()
     month = date.month
     doy = date.timetuple().tm_yday

@@ -20,7 +20,7 @@ import plotly.graph_objects as go
 import joblib
 from sklearn.pipeline import Pipeline
 
-from src.config import (
+from pipeline_lib import (
     FINAL_PIPELINE_PATH, MODEL_METADATA_PATH, RAW_DATA_FILE, FIGURES_DIR,
     N_STORES, N_ITEMS,
 )

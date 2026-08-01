@@ -9,6 +9,7 @@ Provides:
 """
 
 import time
+import logging
 import io
 import json
 import datetime
@@ -19,8 +20,13 @@ from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
-from src.config import FINAL_PIPELINE_PATH, FEATURE_NAMES_PATH, MODEL_METADATA_PATH
-from src.logger import get_logger
+from pipeline_lib import FINAL_PIPELINE_PATH, FEATURE_NAMES_PATH, MODEL_METADATA_PATH
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+
+
+def get_logger(name: str) -> logging.Logger:
+    return logging.getLogger(name)
 from app.schemas import (
     ForecastInput, ForecastResponse, BatchForecastResponse, HealthResponse,
 )

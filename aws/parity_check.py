@@ -23,7 +23,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 from aws import lambda_function as lf  # noqa: E402
-from src.config import FINAL_PIPELINE_PATH  # noqa: E402
+from pipeline_lib import FINAL_PIPELINE_PATH  # noqa: E402
 
 
 def main(n: int = 500) -> None:
