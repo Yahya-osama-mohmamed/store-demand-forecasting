@@ -6,8 +6,13 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 
-# xgboost is a runtime dependency: the champion is an XGBoost
-# regressor and unpickling it needs the library present.
+# xgboost is a runtime dependency: the champion is an XGBoost regressor and
+# unpickling it needs the library present.
+#
+# On Linux the default wheel bundles the GPU build and costs ~450MB compressed
+# in the image for hardware this service will never have. xgboost-cpu ships the
+# same `xgboost` module at the same version without it. Windows wheels are
+# already CPU-only, so the marker keeps local development on the plain package.
 dependencies = [
     "fastapi==0.115.6",
     "uvicorn==0.34.0",
@@ -17,7 +22,8 @@ dependencies = [
     "numpy==1.26.4",
     "pandas==2.2.3",
     "scikit-learn==1.5.2",
-    "xgboost==2.1.3",
+    "xgboost-cpu==2.1.3; sys_platform == 'linux'",
+    "xgboost==2.1.3; sys_platform != 'linux'",
 ]
 
 [dependency-groups]
