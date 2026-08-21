@@ -4,7 +4,7 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An end-to-end Machine Learning project to forecast daily item-level demand across retail stores. This repository contains a production-ready ML pipeline, a FastAPI REST service, a Streamlit dashboard, and complete deployment configurations.
+An end-to-end machine learning project that forecasts daily item-level demand across 500 store-item series. The analysis is one notebook, the model ships as a published container image, and every release is gated on the forecast still clearing its accuracy and bias floors.
 
 ![Dashboard usage](docs/demand_ui.gif)
 
@@ -30,8 +30,9 @@ Demand forecasting drives every downstream retail decision: inventory purchasing
 - **Experiment Tracking:** MLflow
 - **API & Backend:** FastAPI, Uvicorn, Pydantic
 - **Frontend / Dashboard:** Streamlit, Plotly
-- **DevOps / CI-CD:** Docker, Docker Compose, GitHub Actions, Render
+- **Serving:** Docker, Docker Compose, Render
 - **Testing:** Pytest
+- **CI/CD & Containers:** GitHub Actions, GHCR, Docker (multi-stage, non-root), Trivy, Ruff, pre-commit, Dependabot
 
 ---
 
@@ -64,6 +65,12 @@ Or execute it headlessly (it trains on 821k rows, so allow time):
 jupyter nbconvert --to notebook --execute --inplace notebooks/demand_analysis.ipynb
 ```
 
+Check the trained model still clears the floor CI enforces:
+
+```bash
+python scripts/check_model_quality.py
+```
+
 ### 3. Browse the tracked experiments
 
 Every tuning run is logged to a local MLflow store — hyperparameters, CV and
@@ -87,16 +94,32 @@ streamlit run app/streamlit_app.py
 
 ---
 
-## 🐳 Docker Setup
+## 🐳 Running it
+
+The published image is self-contained — the model is baked in — so nothing needs
+building or training first:
 
 ```bash
-# Start both API and Streamlit containers
-docker-compose up --build -d
-
-# Check logs
-docker-compose logs -f
+docker run -p 8000:8000 ghcr.io/yahya-osama-mohmamed/store-demand-api:latest
 ```
-The notebook must be run at least once locally to generate the `models/` directory before starting the containers.
+
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H 'Content-Type: application/json' \
+  -d '{"date":"2018-01-15","store":1,"item":1}'
+# {"predicted_sales":11.79,"demand_level":"Low"}
+```
+
+Interactive API docs: http://localhost:8000/docs
+
+To run the API and the Streamlit dashboard together from source instead:
+
+```bash
+docker-compose up --build -d
+```
+
+Compose builds locally and expects `models/` to exist, so run the notebook once
+first — or just use the published image above.
 
 ---
 
@@ -104,27 +127,31 @@ The notebook must be run at least once locally to generate the `models/` directo
 
 ```
 .
-├── app/                    # Deployment Layer
+├── .github/
+│   ├── workflows/ci.yml              # lint, tests, dependency audit, model quality gate
+│   ├── workflows/docker-publish.yml  # build → smoke test → scan → GHCR
+│   ├── smoke/payload.json            # the request the smoke test actually sends
+│   └── dependabot.yml
+├── app/                    # Serving layer
 │   ├── api.py              # FastAPI application
-│   ├── schemas.py          # Pydantic models
+│   ├── schemas.py          # Pydantic request/response models
 │   └── streamlit_app.py    # Streamlit dashboard
-├── data/                   # Data directory (ignored in git)
-│   ├── raw/                # Original downloaded dataset
-│   └── processed/          # Cleaned & split data
-├── aws/                    # Serverless export, deploy and teardown scripts
-├── dashboard/              # Power BI dashboard (PBIP project format)
-├── figures/                # EDA and evaluation charts (written by the notebook)
+├── aws/                    # Serverless export, parity check, deploy and teardown
+├── dashboard/              # Power BI report (PBIP project format)
+├── figures/                # EDA and evaluation charts, written by the notebook
 ├── mlruns/                 # MLflow tracking store (gitignored)
-├── models/                 # Saved pipeline, feature names, model metadata
+├── models/                 # Metadata is tracked; binaries come from the release
 ├── notebooks/
 │   └── demand_analysis.ipynb  # ← the project: EDA → features → models → test → save
 ├── reports/                # Model comparison table
-├── tests/                  # Pytest unit tests
+├── scripts/
+│   └── check_model_quality.py  # the gate CI runs before publishing
+├── tests/                  # Pytest suite
 ├── pipeline_lib.py         # FeatureEngineer + SMAPE, shared by notebook/API/Lambda
-├── Dockerfile              # Multi-purpose Dockerfile
-├── docker-compose.yml      # Container orchestration
-├── render.yaml             # Render cloud deployment config
-└── requirements.txt        # Python dependencies
+├── Dockerfile              # Multi-stage, non-root, healthchecked
+├── requirements-api.txt    # Runtime deps only (the image does not need jupyter)
+├── requirements.txt        # Development deps
+└── ruff.toml
 ```
 
 ### Why there is still a `.py` file
