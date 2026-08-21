@@ -38,7 +38,7 @@ def main(n: int = 500) -> None:
     # Lambda path
     lambda_preds = np.array([
         lf.predict([d], s, i)[0]["predicted_sales"]
-        for d, s, i in zip(dates, stores, items)
+        for d, s, i in zip(dates, stores, items, strict=False)
     ])
 
     # Real pipeline path (predictions clipped at 0 like the serving layer)

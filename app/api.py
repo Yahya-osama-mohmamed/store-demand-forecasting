@@ -8,28 +8,32 @@ Provides:
 - POST /predict/batch: CSV upload for bulk forecasts
 """
 
-import time
-import logging
+import datetime
 import io
 import json
-import datetime
+import logging
+import time
+
+import joblib
 import numpy as np
 import pandas as pd
-import joblib
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 
-from pipeline_lib import FINAL_PIPELINE_PATH, FEATURE_NAMES_PATH, MODEL_METADATA_PATH
+from app.schemas import (
+    BatchForecastResponse,
+    ForecastInput,
+    ForecastResponse,
+    HealthResponse,
+)
+from pipeline_lib import FEATURE_NAMES_PATH, FINAL_PIPELINE_PATH, MODEL_METADATA_PATH
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
 
 def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(name)
-from app.schemas import (
-    ForecastInput, ForecastResponse, BatchForecastResponse, HealthResponse,
-)
 
 logger = get_logger("api")
 
@@ -183,7 +187,7 @@ def process_prediction(df: pd.DataFrame, pipeline) -> list:
     predictions = np.clip(pipeline.predict(df), 0, None)  # demand can't be negative
 
     results = []
-    for (_, row), pred in zip(df.iterrows(), predictions):
+    for (_, row), pred in zip(df.iterrows(), predictions, strict=False):
         results.append(ForecastResponse(
             predicted_sales=round(float(pred), 2),
             demand_level=determine_demand_level(
@@ -221,7 +225,7 @@ def health_check():
         status=status,
         model_version=model_version,
         uptime_seconds=uptime,
-        timestamp=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        timestamp=datetime.datetime.now(datetime.UTC).isoformat(),
     )
 
 
@@ -248,7 +252,7 @@ def predict_demand(forecast_request: ForecastInput):
     except Exception as e:
         metrics["errors"] += 1
         logger.error(f"Prediction error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}") from e
 
 
 @app.post("/predict/batch", response_model=BatchForecastResponse)
@@ -287,4 +291,4 @@ def predict_batch(file: UploadFile = File(...)):
     except Exception as e:
         metrics["errors"] += 1
         logger.error(f"Batch prediction error: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error processing batch: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error processing batch: {str(e)}") from e

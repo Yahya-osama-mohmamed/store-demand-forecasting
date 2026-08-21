@@ -8,21 +8,26 @@ Provides:
 - Global model insights view
 """
 
-import os
-import json
 import datetime
-import streamlit as st
-import pandas as pd
-import numpy as np
-import requests
-import matplotlib.pyplot as plt
-import plotly.graph_objects as go
+import json
+import os
+
 import joblib
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import requests
+import streamlit as st
 from sklearn.pipeline import Pipeline
 
 from pipeline_lib import (
-    FINAL_PIPELINE_PATH, MODEL_METADATA_PATH, RAW_DATA_FILE, FIGURES_DIR,
-    N_STORES, N_ITEMS,
+    FIGURES_DIR,
+    FINAL_PIPELINE_PATH,
+    MODEL_METADATA_PATH,
+    N_ITEMS,
+    N_STORES,
+    RAW_DATA_FILE,
 )
 
 # =============================================================================

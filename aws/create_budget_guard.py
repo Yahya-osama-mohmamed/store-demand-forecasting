@@ -27,7 +27,7 @@ def budget_exists() -> bool:
         return len(found) > 0
     except botocore.exceptions.ClientError as e:
         if e.response["Error"]["Code"] == "AccessDeniedException":
-            raise PermissionError("cannot view budgets from this IAM user")
+            raise PermissionError("cannot view budgets from this IAM user") from e
         raise
 
 

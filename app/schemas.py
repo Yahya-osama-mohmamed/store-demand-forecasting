@@ -8,8 +8,8 @@ Defines the expected structure and validation rules for:
 """
 
 import datetime
-from typing import List
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class ForecastInput(BaseModel):
@@ -27,8 +27,8 @@ class ForecastInput(BaseModel):
     def validate_date(cls, v: str) -> str:
         try:
             datetime.date.fromisoformat(v)
-        except ValueError:
-            raise ValueError("date must be a valid YYYY-MM-DD date")
+        except ValueError as exc:
+            raise ValueError("date must be a valid YYYY-MM-DD date") from exc
         return v
 
     model_config = ConfigDict(
@@ -62,7 +62,7 @@ class ForecastResponse(BaseModel):
 
 class BatchForecastResponse(BaseModel):
     """Pydantic model for batch forecast response."""
-    predictions: List[ForecastResponse]
+    predictions: list[ForecastResponse]
     total_processed: int
 
 

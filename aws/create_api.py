@@ -48,7 +48,7 @@ def main() -> None:
         pass  # permission already granted
 
     print(f"\nendpoint: {api['ApiEndpoint']}/forecast")
-    print('test:  curl -X POST <endpoint> -d \'{"start_date":"2018-07-01","periods":14,"store":2,"item":15}\'')
+    print('test:  curl -X POST <endpoint> -d \'{"start_date":"2018-07-01","periods":14,"store":2,"item":15}\'')  # noqa: E501
 
 
 if __name__ == "__main__":

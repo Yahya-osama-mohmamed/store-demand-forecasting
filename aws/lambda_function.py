@@ -99,7 +99,7 @@ def _vectorize(rows: list, art: dict) -> np.ndarray:
             v = f.get(col)
             out[i, j] = art["num_medians"][k] if v is None else v
             j += 1
-        for col, cats in zip(art["cat_cols"], art["cat_categories"]):
+        for col, cats in zip(art["cat_cols"], art["cat_categories"], strict=False):
             v = f.get(col)
             for c in cats:
                 out[i, j] = 1.0 if v == c else 0.0
@@ -116,7 +116,7 @@ def predict(dates: list, store: int, item: int) -> list:
     X = _vectorize(rows, art)
     preds = booster.predict(xgb.DMatrix(X))
     return [{"date": d.isoformat(), "predicted_sales": round(max(float(p), 0.0), 2)}
-            for d, p in zip(dates, preds)]
+            for d, p in zip(dates, preds, strict=False)]
 
 
 def lambda_handler(event, context):

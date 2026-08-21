@@ -27,6 +27,7 @@ Demand forecasting drives every downstream retail decision: inventory purchasing
 - **Data Science Core:** pandas, NumPy, scikit-learn
 - **Machine Learning Models:** LightGBM, XGBoost, HistGradientBoosting
 - **Explainability:** SHAP (SHapley Additive exPlanations)
+- **Experiment Tracking:** MLflow
 - **API & Backend:** FastAPI, Uvicorn, Pydantic
 - **Frontend / Dashboard:** Streamlit, Plotly
 - **DevOps / CI-CD:** Docker, Docker Compose, GitHub Actions, Render
@@ -63,7 +64,16 @@ Or execute it headlessly (it trains on 821k rows, so allow time):
 jupyter nbconvert --to notebook --execute --inplace notebooks/demand_analysis.ipynb
 ```
 
-### 3. Start the Applications
+### 3. Browse the tracked experiments
+
+Every tuning run is logged to a local MLflow store — hyperparameters, CV and
+validation scores, full test metrics, and the champion's serialized pipeline.
+
+```bash
+mlflow ui --backend-store-uri mlruns
+```
+
+### 4. Start the Applications
 **FastAPI Backend (Port 8000):**
 ```bash
 uvicorn app.api:app --reload
@@ -104,6 +114,7 @@ The notebook must be run at least once locally to generate the `models/` directo
 ├── aws/                    # Serverless export, deploy and teardown scripts
 ├── dashboard/              # Power BI dashboard (PBIP project format)
 ├── figures/                # EDA and evaluation charts (written by the notebook)
+├── mlruns/                 # MLflow tracking store (gitignored)
 ├── models/                 # Saved pipeline, feature names, model metadata
 ├── notebooks/
 │   └── demand_analysis.ipynb  # ← the project: EDA → features → models → test → save

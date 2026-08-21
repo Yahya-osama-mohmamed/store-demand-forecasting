@@ -10,7 +10,11 @@ import pandas as pd
 import pytest
 
 from pipeline_lib import (
-    DATE_COLUMN, AGGREGATE_FEATURES, FeatureEngineer, create_calendar_features, smape,
+    AGGREGATE_FEATURES,
+    DATE_COLUMN,
+    FeatureEngineer,
+    create_calendar_features,
+    smape,
 )
 
 
