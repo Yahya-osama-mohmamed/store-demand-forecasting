@@ -8,6 +8,24 @@ updates:
     groups:
       python-packages:
         patterns: ["*"]
+    ignore:
+      # Major bumps of the numerical stack are held back deliberately. The
+      # released model artifacts were pickled against these versions, and a
+      # major upgrade can make them unloadable or silently change results - so
+      # it is a retrain decision, not a dependency bump. Minor and patch
+      # updates still flow through.
+      - dependency-name: numpy
+        update-types: ["version-update:semver-major"]
+      - dependency-name: scipy
+        update-types: ["version-update:semver-major"]
+      - dependency-name: scikit-learn
+        update-types: ["version-update:semver-major"]
+      - dependency-name: pandas
+        update-types: ["version-update:semver-major"]
+      - dependency-name: xgboost
+        update-types: ["version-update:semver-major"]
+      - dependency-name: lightgbm
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
