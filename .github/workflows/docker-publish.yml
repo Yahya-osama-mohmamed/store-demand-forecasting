@@ -1,0 +1,135 @@
+name: Publish container
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/store-demand-api
+  MODEL_RELEASE_TAG: models-v1
+
+jobs:
+  build-verify-push:
+    name: Build, smoke test, publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch model artifacts from the release
+        # The image has to be self-contained, but the binaries are not in git.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p models
+          gh release download "$MODEL_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir models --clobber
+          ls -lh models
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,format=short
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build for testing
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: smoke-test:candidate
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the running container
+        # An image that builds is not an image that works. This starts the real
+        # container and calls the real endpoints; a missing runtime dependency
+        # or an unloadable model fails here rather than in front of a user.
+        run: |
+          docker run -d --name candidate -p 8000:8000 smoke-test:candidate
+          for i in $(seq 1 45); do
+            if curl -fsS http://localhost:8000/health > /dev/null 2>&1; then
+              echo "healthy after ${i}s"; break
+            fi
+            if [ "$i" = "45" ]; then
+              echo "::error::container never became healthy"; docker logs candidate; exit 1
+            fi
+            sleep 1
+          done
+
+          echo "--- /health ---"
+          curl -fsS http://localhost:8000/health | tee health.json
+          grep -q '"status"' health.json
+
+          echo "--- /predict ---"
+          curl -fsS -X POST http://localhost:8000/predict \
+            -H 'Content-Type: application/json' \
+            -d @.github/smoke/payload.json | tee predict.json
+
+          python - <<'PY'
+          import json
+          r = json.load(open("predict.json"))
+          v = r.get("predicted_sales")
+          assert isinstance(v, (int, float)), f"no predicted_sales in {r}"
+          assert v >= 0, f"negative demand forecast: {v}"
+          assert v < 10000, f"implausible forecast for one store-item-day: {v}"
+          print(f"smoke test passed: forecast={v} units")
+          PY
+
+          docker rm -f candidate
+
+      - name: Scan image for vulnerabilities
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: smoke-test:candidate
+          format: table
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "0"   # advisory: base-image CVEs should not block a portfolio release
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+
+      - name: Summary
+        run: |
+          {
+            echo "### Published"
+            echo ""
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+            echo ""
+            echo "Run it:"
+            echo '```bash'
+            echo "docker run -p 8000:8000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

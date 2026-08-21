@@ -1,0 +1,18 @@
+# Runtime dependencies for the API image only.
+#
+# requirements.txt is the development set - it also carries jupyter, mlflow,
+# streamlit and the plotting stack, none of which the served API imports.
+# Installing that into the image would triple its size for no benefit.
+# The CI smoke test starts a container built from this file and calls the
+# real endpoints, so a missing dependency fails the build rather than
+# reaching a user.
+fastapi==0.115.6
+uvicorn==0.34.0
+pydantic==2.10.4
+python-multipart==0.0.20
+joblib==1.4.2
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.2
+# The champion is an XGBoost regressor; unpickling needs the library present.
+xgboost==2.1.3

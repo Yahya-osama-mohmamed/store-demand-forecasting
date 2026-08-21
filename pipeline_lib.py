@@ -31,7 +31,14 @@ FIGURES_DIR = PROJECT_ROOT / "figures"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 
 for _d in (RAW_DATA_DIR, PROCESSED_DATA_DIR, MODELS_DIR, FIGURES_DIR, REPORTS_DIR):
-    _d.mkdir(parents=True, exist_ok=True)
+    try:
+        _d.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        # The container runs as a non-root user on a filesystem it does not own,
+        # so these directories cannot be created there - and do not need to be.
+        # Serving only ever reads models/, which is baked into the image. The
+        # notebook, which does write here, runs where the paths are writable.
+        pass
 
 DATASET_URL = (
     "https://raw.githubusercontent.com/DharitShah13/"

@@ -1,0 +1,25 @@
+# Keep the build context small and secrets out of it.
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.git/
+.github/
+.pytest_cache/
+.ipynb_checkpoints/
+notebooks/
+figures/
+reports/
+docs/
+dashboard/
+mlruns/
+logs/
+data/
+tests/
+aws/
+scripts/
+*.ipynb
+*.md
+!README.md
+.env
+.DS_Store

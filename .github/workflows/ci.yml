@@ -1,33 +1,88 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
+  workflow_dispatch:
+
+# A newer push makes an in-flight run irrelevant; don't burn minutes on it.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  test:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff==0.16.4
+      - name: Ruff
+        run: ruff check --output-format=github .
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
-        cache: 'pip'
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest-cov
+      - name: Fetch model artifacts
+        # Model binaries are release assets, not git objects: versioned,
+        # immutable, and kept out of the repository history.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p models
+          gh release download models-v1 --repo "$GITHUB_REPOSITORY" --dir models --clobber
+          ls -lh models
+      - name: Run tests
+        run: pytest tests/ -q --cov=. --cov-report=xml --cov-report=term-missing
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.xml
+          if-no-files-found: ignore
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+  security:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pip-audit
+      # Advisory, not blocking: a fresh CVE in a transitive pin should not turn
+      # the whole portfolio red overnight. Dependabot opens the fixing PR.
+      - name: pip-audit
+        continue-on-error: true
+        run: pip-audit -r requirements.txt --desc
 
-    - name: Run Pytest
-      run: |
-        pytest tests/ -v --tb=short
-
-    - name: Check API Imports
-      run: |
-        python -c "from app.api import app; print('API loaded successfully')"
+  model-quality-gate:
+    name: Model quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check the shipped model still clears its floor
+        run: python scripts/check_model_quality.py
