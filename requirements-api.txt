@@ -6,13 +6,13 @@
 # The CI smoke test starts a container built from this file and calls the
 # real endpoints, so a missing dependency fails the build rather than
 # reaching a user.
-fastapi==0.115.6
-uvicorn==0.34.0
-pydantic==2.10.4
-python-multipart==0.0.20
-joblib==1.4.2
-numpy==1.26.4
-pandas==2.2.3
-scikit-learn==1.5.2
+fastapi==0.141.1
+uvicorn==0.52.3
+pydantic==2.13.4
+python-multipart==0.0.32
+joblib==1.5.3
+numpy==2.5.2
+pandas==3.0.5
+scikit-learn==1.9.0
 # The champion is an XGBoost regressor; unpickling needs the library present.
-xgboost==2.1.3
+xgboost==3.4.1
