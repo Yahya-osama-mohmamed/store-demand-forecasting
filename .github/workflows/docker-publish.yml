@@ -24,7 +24,7 @@ jobs:
     name: Build, smoke test, publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Fetch model artifacts from the release
         # The image has to be self-contained, but the binaries are not in git.
