@@ -43,10 +43,13 @@ Demand forecasting drives every downstream retail decision: inventory purchasing
 ```bash
 git clone https://github.com/Yahya-osama-mohmamed/store-demand-forecasting.git
 cd store-demand-forecasting
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+uv sync            # creates .venv and installs the locked dependency tree
 ```
+
+Dependencies are managed with [uv](https://docs.astral.sh/uv/): `pyproject.toml`
+declares them, `uv.lock` pins the entire transitive tree, and `uv sync` installs
+exactly that. The lockfile is what CI and the container build install from, so
+"works on my machine" and "works in the image" are the same resolution.
 
 ### 2. Run the analysis
 The whole project is one notebook: [`notebooks/demand_analysis.ipynb`](notebooks/demand_analysis.ipynb).
@@ -56,19 +59,19 @@ implementations on SMAPE with `TimeSeriesSplit`, evaluates the champion once on
 the held-out quarter, and saves the artifacts the API and the Lambda export use.
 
 ```bash
-jupyter lab notebooks/demand_analysis.ipynb
+uv run jupyter lab notebooks/demand_analysis.ipynb
 ```
 
 Or execute it headlessly (it trains on 821k rows, so allow time):
 
 ```bash
-jupyter nbconvert --to notebook --execute --inplace notebooks/demand_analysis.ipynb
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/demand_analysis.ipynb
 ```
 
 Check the trained model still clears the floor CI enforces:
 
 ```bash
-python scripts/check_model_quality.py
+uv run python scripts/check_model_quality.py
 ```
 
 ### 3. Browse the tracked experiments
@@ -77,19 +80,19 @@ Every tuning run is logged to a local MLflow store — hyperparameters, CV and
 validation scores, full test metrics, and the champion's serialized pipeline.
 
 ```bash
-mlflow ui --backend-store-uri mlruns
+uv run mlflow ui --backend-store-uri mlruns
 ```
 
 ### 4. Start the Applications
 **FastAPI Backend (Port 8000):**
 ```bash
-uvicorn app.api:app --reload
+uv run uvicorn app.api:app --reload
 ```
 Swagger documentation available at: http://localhost:8000/docs
 
 **Streamlit Dashboard (Port 8501):**
 ```bash
-streamlit run app/streamlit_app.py
+uv run streamlit run app/streamlit_app.py
 ```
 
 ---
@@ -149,9 +152,9 @@ first — or just use the published image above.
 ├── tests/                  # Pytest suite
 ├── pipeline_lib.py         # FeatureEngineer + SMAPE, shared by notebook/API/Lambda
 ├── Dockerfile              # Multi-stage, non-root, healthchecked
-├── requirements-api.txt    # Runtime deps only (the image does not need jupyter)
-├── requirements.txt        # Development deps
-└── ruff.toml
+├── pyproject.toml          # Dependencies, ruff and pytest config
+├── uv.lock                 # The exact tree CI and the image install
+└── .pre-commit-config.yaml
 ```
 
 ### Why there is still a `.py` file

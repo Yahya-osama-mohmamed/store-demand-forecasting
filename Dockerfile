@@ -1,14 +1,22 @@
 # Multi-stage: the build toolchain never reaches the published image.
 FROM python:3.11-slim AS builder
 
-ENV PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+# uv resolves and installs from uv.lock, so the image gets the exact same
+# transitive tree that CI tested - not whatever pip happened to resolve today.
+COPY --from=ghcr.io/astral-sh/uv:0.12.5 /uv /usr/local/bin/uv
 
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PROJECT_ENVIRONMENT=/opt/venv
 
-COPY requirements-api.txt .
-RUN pip install --upgrade pip && pip install -r requirements-api.txt
+WORKDIR /build
+
+# Only the dependency manifests, so this layer caches until they change.
+COPY pyproject.toml uv.lock ./
+
+# --no-dev keeps jupyter, mlflow, streamlit and the plotting stack out of the
+# image; --frozen fails if the lockfile is stale rather than silently drifting.
+RUN uv sync --frozen --no-dev --no-install-project
 
 
 FROM python:3.11-slim AS runtime
