@@ -35,7 +35,7 @@ jobs:
           gh release download "$MODEL_RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --dir models --clobber
           ls -lh models
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
 
       - name: Image metadata
         id: meta
